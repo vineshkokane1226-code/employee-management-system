@@ -30,7 +30,7 @@ if (!isset($_SESSION['email'])) {
                     <span><?php echo  $_SESSION['name']; ?></span>
                 </button>
                 <div class="dropdown-nav">
-                    <a href="#">
+                    <a href="edit_profile.php">
                         <i class="fa-solid fa-cog"></i>
                         <span>Profile</span>
                     </a>

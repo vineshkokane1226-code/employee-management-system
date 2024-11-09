@@ -30,8 +30,8 @@ if (isset($_POST['btn_submit'])) {
             $_SESSION['name'] = $user['name'];
             $_SESSION['email'] = $user['email'];
 
-            $dashbaord = "admin/dashboard.php";
-            header("location: $dashbaord");
+            $dashboard = "admin/dashboard.php";
+            header("location: $dashboard");
         } else {
             $error_login = "Invalid email or password";
         }
