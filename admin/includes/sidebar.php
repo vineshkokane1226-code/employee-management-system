@@ -15,7 +15,7 @@
             <div class="admin-sider-nav">
                 <h4>
                     <i class="fa-solid fa-users"></i>
-                    <span>Department Manage</span>
+                    <span>Department Management</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </h4>
                 <ul>
@@ -36,7 +36,7 @@
             <div class="admin-sider-nav">
                 <h4>
                     <i class="fa-solid fa-users"></i>
-                    <span>Employee Manage</span>
+                    <span>Employee Management</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </h4>
                 <ul>
@@ -63,20 +63,20 @@
             <div class="admin-sider-nav">
                 <h4>
                     <i class="fa-solid fa-face-smile"></i>
-                    <span>Attendenc Manage</span>
+                    <span>Attendence Management</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </h4>
                 <ul>
                     <li>
-                        <a href="add_leave_types.php">
+                        <a href="add_attendence.php">
                             <i class="fa-solid fa-person-walking-arrow-right"></i>
-                            <span>Add Leave Type</span>
+                            <span>Add Attendence</span>
                         </a>
                     </li>
                     <li>
-                        <a href="list_leave_types.php">
+                        <a href="list_attendence.php">
                             <i class="fa-solid fa-hand-peace"></i>
-                            <span>Attendenc List</span>
+                            <span>Attendence List</span>
                         </a>
                     </li>
                 </ul>
@@ -84,7 +84,7 @@
             <div class="admin-sider-nav">
                 <h4>
                     <i class="fa-solid fa-face-smile"></i>
-                    <span>Leave Type Manage</span>
+                    <span>Leave Type Management</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </h4>
                 <ul>
@@ -106,7 +106,7 @@
         <div class="admin-sider-nav">
             <h4>
                 <i class="fa-solid fa-face-smile"></i>
-                <span>Leave Requested Manage</span>
+                <span>Requested Leaves</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </h4>
             <ul>
