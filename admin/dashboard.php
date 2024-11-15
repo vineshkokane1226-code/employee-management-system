@@ -5,8 +5,6 @@ include_once("includes/header.php");
 // import sidebar
 include_once("includes/sidebar.php");
 
-// database connection
-$connection = new mysqli("localhost", "root", "", "db_employeemanagement");
 $total_leave_types = $connection->query("SELECT * FROM tbl_leave_types")->num_rows;
 $total_leaves = $connection->query("SELECT * FROM tbl_leaves")->num_rows;
 $total_employees = $connection->query("SELECT * FROM tbl_users");
@@ -14,7 +12,6 @@ $employees_list = [];
 while ($data = $total_employees->fetch_assoc()) {
     array_push($employees_list, $data);
 }
-
 
 ?>
 <div class="admin-main">

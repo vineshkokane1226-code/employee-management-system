@@ -6,7 +6,6 @@ include_once("includes/header.php");
 include_once("includes/sidebar.php");
 
 // fetch single leave_types data
-$connection = new mysqli("localhost", "root", "", "db_employeemanagement");
 $get_id = $_GET['id'];
 $fetch_query = "SELECT * FROM tbl_departments where id= $get_id";
 $fetch_result = $connection->query($fetch_query);

@@ -102,8 +102,6 @@ if (isset($_POST['btn_add_employee'])) {
         isset($role) &&
         isset($status)
     ) {
-
-        $connection = new mysqli("localhost", "root", "", "db_employeemanagement");
         $checkEmailQuery = "SELECT * FROM tbl_users where email='$email'";
         $result = $connection->query($checkEmailQuery);
 

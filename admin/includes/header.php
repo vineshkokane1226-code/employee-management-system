@@ -1,4 +1,7 @@
 <?php
+// database connection
+$connection = new mysqli("localhost", "root", "", "db_employeemanagement");
+
 session_start();
 if (!isset($_SESSION['email'])) {
     $login = "../login.php";

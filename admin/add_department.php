@@ -28,8 +28,6 @@ if (isset($_POST['btn_submit'])) {
         isset($created_by) &&
         isset($status)
     ) {
-
-        $connection = new mysqli("localhost", "root", "", "db_employeemanagement");
         $checkNameQuery = "SELECT * FROM tbl_departments where name='$name'";
         $result = $connection->query($checkNameQuery);
 

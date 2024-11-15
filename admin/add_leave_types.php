@@ -21,8 +21,6 @@ if (isset($_POST['btn_add_employee'])) {
         isset($created_by) &&
         isset($status)
     ) {
-
-        $connection = new mysqli("localhost", "root", "", "db_employeemanagement");
         $checkNameQuery = "SELECT * FROM tbl_leave_types where name='$name'";
         $result = $connection->query($checkNameQuery);
 

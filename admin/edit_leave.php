@@ -5,9 +5,6 @@ include_once("includes/header.php");
 // import sidebar
 include_once("includes/sidebar.php");
 
-// database connection
-$connection = new mysqli("localhost", "root", "", "db_employeemanagement");
-
 // fetch single leave
 $get_id = $_GET['id'];
 $fetch_single_query = "SELECT * FROM tbl_leaves where id=$get_id";

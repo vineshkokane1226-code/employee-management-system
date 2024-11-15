@@ -5,9 +5,6 @@ include_once("includes/header.php");
 // import sidebar
 include_once("includes/sidebar.php");
 
-// database connection
-$connection = new mysqli("localhost", "root", "", "db_employeemanagement");
-
 // fetch all leave types data
 $loggedin_user_id = $_SESSION['id'];
 $fetch_all_query = "SELECT * FROM tbl_leaves where requested_by=$loggedin_user_id";

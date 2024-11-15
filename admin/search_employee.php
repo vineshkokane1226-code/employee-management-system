@@ -5,9 +5,6 @@ include_once("includes/header.php");
 // import sidebar
 include_once("includes/sidebar.php");
 
-// database connection
-$connection = new mysqli("localhost", "root", "", "db_employeemanagement");
-
 // search by joint between leaved date
 if (isset($_POST['search_between_joint_leaved'])) {
     $joint_date = $_POST['joint_date'];

@@ -5,7 +5,19 @@ include_once("includes/header.php");
 // import sidebar
 include_once("includes/sidebar.php");
 
-// fetch all employees data
+// get id
+$get_id = $_GET['id'];
+
+// gets single attendance data
+$fetch_query = "SELECT * FROM tbl_attendences where id= $get_id";
+$fetch_result = $connection->query($fetch_query);
+if ($fetch_result->num_rows > 0) {
+    $attendence = $fetch_result->fetch_assoc();
+} else {
+    header("location: list_attendence.php");
+}
+
+// fetch all employee data
 $fetch_all_query = "SELECT * FROM tbl_users";
 $result = $connection->query($fetch_all_query);
 $employee_list = [];
@@ -18,37 +30,37 @@ if (isset($_POST['btn_submit'])) {
     if (isset($_POST['employee_id']) && !empty($_POST['employee_id'])) {
         $employee_id = $_POST['employee_id'];
     } else {
-        $error_employee_id = "Employee is required!";
+        $employee_id = $attendence['employee_id'];
     }
 
     if (isset($_POST['date']) && !empty($_POST['date'])) {
         $date = $_POST['date'];
     } else {
-        $error_date = "Date is required!";
+        $date = $attendence['date'];
     }
 
     if (isset($_POST['check_in_time']) && !empty($_POST['check_in_time'])) {
         $check_in_time = $_POST['check_in_time'];
     } else {
-        $error_check_in_time = "Check in Time is required!";
+        $check_in_time = $attendence['check_in_time'];
     }
 
     if (isset($_POST['check_out_time']) && !empty($_POST['check_out_time'])) {
         $check_out_time = $_POST['check_out_time'];
     } else {
-        $error_check_out_time = "Check Out Time is required!";
+        $check_out_time = $attendence['check_out_time'];
     }
 
     if (isset($_POST['status']) && !empty($_POST['status'])) {
         $status = $_POST['status'];
     } else {
-        $error_status = "Status is required!";
+        $status =  $attendence['status'];
     }
 
     if (isset($_POST['remarks']) && !empty($_POST['remarks'])) {
         $remarks = $_POST['remarks'];
     } else {
-        $error_remarks = "Remarks is required!";
+        $remarks = $attendence['remarks'];
     }
 
     if (
@@ -59,6 +71,7 @@ if (isset($_POST['btn_submit'])) {
         isset($status) &&
         isset($remarks)
     ) {
+
         // Office work opening and closing times
         $officeStart = '9:00:00';
         $officeEnd = '17:00:00';
@@ -85,26 +98,24 @@ if (isset($_POST['btn_submit'])) {
             $overTime = $overTimeInterval->format('%h Hours %i Minutes');
         }
 
-        // chech emeployee is already attend or not
-        $checkUserQuery = "SELECT * FROM tbl_attendences where employee_id=$employee_id";
-        $result = $connection->query($checkUserQuery);
-        $employee = $result->fetch_assoc();
+        $update_sql = "UPDATE tbl_attendences SET 
+                        employee_id=$employee_id, 
+                        date='$date', 
+                        check_in_time='$check_in_time', 
+                        check_out_time='$check_out_time', 
+                        status='$status', 
+                        remarks='$remarks', 
+                        late_time='$lateTime', 
+                        over_time='$overTime', 
+                        total_working_hours='$workingHours' 
+                        WHERE id= $get_id";
 
-        $new_date = date("M d, Y", strtotime($date));
-        $employee_date = date("M d, Y", strtotime($employee['date']));
+        $connection->query($update_sql);
 
-        if ($employee_id == $employee['employee_id'] && $new_date == $employee_date) {
-            $result_failed = "The attendance of this Employee is already inserted!";
+        if ($connection->affected_rows > 0) {
+            $result_success = "Update attendance successfully!";
         } else {
-
-            // insert fresh attendence record
-            $sql = "INSERT INTO tbl_attendences (employee_id,date,check_in_time,check_out_time,status,remarks,late_time,over_time,total_working_hours) 
-                    VALUES ($employee_id,'$date','$check_in_time','$check_out_time','$status','$remarks','$lateTime','$overTime','$workingHours')";
-            $connection->query($sql);
-
-            if ($connection->insert_id > 0) {
-                $result_success = "New attendance added successfully!";
-            }
+            $result_success = "No changes were made.";
         }
     }
 }
@@ -112,7 +123,7 @@ if (isset($_POST['btn_submit'])) {
 ?>
 <div class="admin-main">
     <div class="heading-panel">
-        <h1>Add Attendence</h1>
+        <h1>Edit Attendence</h1>
     </div>
     <div class="body-panel">
         <?php if (isset($result_success)) { ?>
@@ -135,18 +146,15 @@ if (isset($_POST['btn_submit'])) {
                         <select name="employee_id" class="form-control">
                             <option value="">Select Employee</option>
                             <?php foreach ($employee_list as $employee) { ?>
-                                <option value="<?php echo $employee['id']; ?>">
+                                <option value="<?php echo $employee['id']; ?>" <?php if ($employee['id'] == $attendence['employee_id']) {
+                                                                                    echo "selected";
+                                                                                } ?>>
                                     <?php echo $employee['name']; ?>
                                 </option>
                             <?php } ?>
                         </select>
                     </div>
                 </div>
-                <?php if (isset($error_employee_id)) { ?>
-                    <p class='alert alert-danger'>
-                        <?php echo $error_employee_id; ?>
-                    </p>
-                <?php } ?>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -154,14 +162,9 @@ if (isset($_POST['btn_submit'])) {
                         <label>Date :</label>
                     </div>
                     <div class="col-sm-9">
-                        <input type="date" name="date" class="form-control">
+                        <input type="date" name="date" class="form-control" value="<?php echo $attendence['date']; ?>">
                     </div>
                 </div>
-                <?php if (isset($error_date)) { ?>
-                    <p class='alert alert-danger'>
-                        <?php echo $error_date; ?>
-                    </p>
-                <?php } ?>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -169,14 +172,9 @@ if (isset($_POST['btn_submit'])) {
                         <label>Check in Time :</label>
                     </div>
                     <div class="col-sm-9">
-                        <input type="time" name="check_in_time" class="form-control">
+                        <input type="time" name="check_in_time" class="form-control" value="<?php echo $attendence['check_in_time']; ?>">
                     </div>
                 </div>
-                <?php if (isset($error_check_in_time)) { ?>
-                    <p class='alert alert-danger'>
-                        <?php echo $error_check_in_time; ?>
-                    </p>
-                <?php } ?>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -184,14 +182,9 @@ if (isset($_POST['btn_submit'])) {
                         <label>Check out Time :</label>
                     </div>
                     <div class="col-sm-9">
-                        <input type="time" name="check_out_time" class="form-control">
+                        <input type="time" name="check_out_time" class="form-control" value="<?php echo $attendence['check_out_time']; ?>">
                     </div>
                 </div>
-                <?php if (isset($error_check_out_time)) { ?>
-                    <p class='alert alert-danger'>
-                        <?php echo $error_check_out_time; ?>
-                    </p>
-                <?php } ?>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -201,18 +194,21 @@ if (isset($_POST['btn_submit'])) {
                     <div class="col-sm-9">
                         <select name="status" class="form-control">
                             <option value="">Select Status</option>
-                            <option value="Present">Present</option>
-                            <option value="Absent">Absent</option>
-                            <option value="On Leave">On Leave</option>
-                            <option value="Partial Day">Partial Day</option>
+                            <option value="Present" <?php if ('Present' == $attendence['status']) {
+                                                        echo "selected";
+                                                    } ?>>Present</option>
+                            <option value="Absent" <?php if ('Absent' == $attendence['status']) {
+                                                        echo "selected";
+                                                    } ?>>Absent</option>
+                            <option value="On Leave" <?php if ('On Leave' == $attendence['status']) {
+                                                            echo "selected";
+                                                        } ?>>On Leave</option>
+                            <option value="Partial Day" <?php if ('Partial Day' == $attendence['status']) {
+                                                            echo "selected";
+                                                        } ?>>Partial Day</option>
                         </select>
                     </div>
                 </div>
-                <?php if (isset($error_status)) { ?>
-                    <p class='alert alert-danger'>
-                        <?php echo $error_status; ?>
-                    </p>
-                <?php } ?>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -220,19 +216,14 @@ if (isset($_POST['btn_submit'])) {
                         <label>Remarks :</label>
                     </div>
                     <div class="col-sm-9">
-                        <input type="text" name="remarks" class="form-control" placeholder="Enter Remarks">
+                        <input type="text" name="remarks" class="form-control" placeholder="Enter Remarks" value="<?php echo $attendence['remarks']; ?>">
                     </div>
                 </div>
-                <?php if (isset($error_remarks)) { ?>
-                    <p class='alert alert-danger'>
-                        <?php echo $error_remarks; ?>
-                    </p>
-                <?php } ?>
             </div>
             <div class="form-group">
                 <button type="submit" name="btn_submit" class="btn btn-primary">
                     <i class="fa-solid fa-plus"></i>
-                    Add Employee
+                    Update Employee
                 </button>
             </div>
         </form>
