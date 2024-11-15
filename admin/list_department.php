@@ -8,20 +8,18 @@ include_once("includes/sidebar.php");
 // database connection
 $connection = new mysqli("localhost", "root", "", "db_employeemanagement");
 
-// fetch all employees data
-$fetch_all_query = "SELECT * FROM tbl_users ORDER BY name ASC";
+// fetch all departments data
+$fetch_all_query = "SELECT * FROM tbl_departments ORDER BY name ASC";
 $result = $connection->query($fetch_all_query);
-$employee_list = [];
+$department_list = [];
 while ($data = $result->fetch_assoc()) {
-    $department_id = $data['department_id'];
-    $data['department'] = $connection->query("SELECT * FROM tbl_departments where id=$department_id")->fetch_assoc()['name'];
-    array_push($employee_list, $data);
+    array_push($department_list, $data);
 }
 
 ?>
 <div class="admin-main">
     <div class="heading-panel">
-        <h1>List Employee</h1>
+        <h1>List Department</h1>
     </div>
     <div class="body-panel">
         <table class="table tableb-bordered">
@@ -29,23 +27,19 @@ while ($data = $result->fetch_assoc()) {
                 <tr>
                     <th>SN</th>
                     <th>Name</th>
-                    <th>Department</th>
-                    <th>Position</th>
-                    <th>Gender</th>
+                    <th>Description</th>
                     <th>Status</th>
                     <th class="bnt-actions-list">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($employee_list as $key => $employee) { ?>
+                <?php foreach ($department_list as $key => $department) { ?>
                     <tr>
                         <td><?php echo $key + 1; ?></td>
-                        <td><?php echo $employee['name']; ?></td>
-                        <td><?php echo $employee['department']; ?></td>
-                        <td><?php echo $employee['position']; ?></td>
-                        <td><?php echo $employee['gender']; ?></td>
+                        <td><?php echo $department['name']; ?></td>
+                        <td><?php echo $department['description']; ?></td>
                         <td>
-                            <?php if ($employee['status'] == 1) { ?>
+                            <?php if ($department['status'] == 1) { ?>
                                 <span class="badge bg-success">Active</span>
                             <?php } else { ?>
                                 <span class="badge bg-danger">Dective</span>
@@ -53,15 +47,15 @@ while ($data = $result->fetch_assoc()) {
                         </td>
                         <td>
                             <div class="bnt-actions-link">
-                                <a href="edit_employee.php?id=<?php echo $employee['id']; ?>" class="btn btn-success">
+                                <a href="edit_department.php?id=<?php echo $department['id']; ?>" class="btn btn-success">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     <span>Edit</span>
                                 </a>
-                                <a href="show_employee.php?id=<?php echo $employee['id']; ?>" class="btn btn-primary">
+                                <a href="show_department.php?id=<?php echo $department['id']; ?>" class="btn btn-primary">
                                     <i class="fa-solid fa-eye"></i>
                                     <span>Show</span>
                                 </a>
-                                <form action="delete_employee.php?id=<?php echo $employee['id']; ?>" method="POST">
+                                <form action="delete_department.php?id=<?php echo $department['id']; ?>" method="POST">
                                     <button type="submit" class="btn btn-danger">
                                         <i class="fa-solid fa-trash"></i>
                                         <span>Delete</span>

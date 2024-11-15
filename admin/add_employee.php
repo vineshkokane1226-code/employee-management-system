@@ -5,7 +5,24 @@ include_once("includes/header.php");
 // import sidebar
 include_once("includes/sidebar.php");
 
+// database connection
+$connection = new mysqli("localhost", "root", "", "db_employeemanagement");
+
+// fetch all departments data
+$fetch_all_query = "SELECT * FROM tbl_departments";
+$result = $connection->query($fetch_all_query);
+$departments = [];
+while ($data = $result->fetch_assoc()) {
+    array_push($departments, $data);
+}
+
 if (isset($_POST['btn_add_employee'])) {
+
+    if (isset($_POST['department']) && !empty($_POST['department'])) {
+        $department = $_POST['department'];
+    } else {
+        $error_department = "Department is required!";
+    }
 
     if (isset($_POST['name']) && !empty($_POST['name'])) {
         $name = $_POST['name'];
@@ -71,6 +88,7 @@ if (isset($_POST['btn_add_employee'])) {
     $status = $_POST['status'];
 
     if (
+        isset($department) &&
         isset($name) &&
         isset($email) &&
         isset($password) &&
@@ -93,8 +111,8 @@ if (isset($_POST['btn_add_employee'])) {
             $result_failed = "This email is already in used!";
         } else {
             $password = md5($password);
-            $sql = "INSERT INTO tbl_users (name, email, password, phone, address, gender, role, position, joint_date, leaved_date, date_of_birth, status) 
-                    VALUES ('$name', '$email', '$password', '$phone', '$address', '$gender', '$role', '$position', '$joint_date', '$leaved_date', '$date_of_birth', $status)";
+            $sql = "INSERT INTO tbl_users (department_id, name, email, password, phone, address, gender, role, position, joint_date, leaved_date, date_of_birth, status) 
+                    VALUES ($department, '$name', '$email', '$password', '$phone', '$address', '$gender', '$role', '$position', '$joint_date', '$leaved_date', '$date_of_birth', $status)";
             $connection->query($sql);
 
             if ($connection->insert_id > 0) {
@@ -121,6 +139,28 @@ if (isset($_POST['btn_add_employee'])) {
             </p>
         <?php } ?>
         <form action="" method="POST" class="add-employee-form">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label>Department :</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <select name="department" class="form-control">
+                            <option value="">Select Department</option>
+                            <?php foreach ($departments as $department) { ?>
+                                <option value="<?php echo $department['id']; ?>">
+                                    <?php echo $department['name']; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <?php if (isset($error_department)) { ?>
+                    <p class='alert alert-danger'>
+                        <?php echo $error_department; ?>
+                    </p>
+                <?php } ?>
+            </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-3">

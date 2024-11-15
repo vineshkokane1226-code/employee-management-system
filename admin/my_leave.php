@@ -16,8 +16,12 @@ $leaves_list = [];
 while ($data = $result->fetch_assoc()) {
     $leave_type_id = $data['leave_type_id'];
     $data['leave_type_name'] = $connection->query("SELECT * FROM tbl_leave_types where id=$leave_type_id")->fetch_assoc()['name'];
-    $user_id = $data['approved_by'];
-    $data['approved_by'] = $connection->query("SELECT * FROM tbl_users where id=$user_id")->fetch_assoc()['name'];
+
+    if (!empty($data['approved_by'])) {
+        $user_id = $data['approved_by'];
+        $data['approved_by'] = $connection->query("SELECT * FROM tbl_users where id=$user_id")->fetch_assoc()['name'];
+    }
+
     array_push($leaves_list, $data);
 }
 ?>

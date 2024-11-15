@@ -12,6 +12,8 @@ $fetch_query = "SELECT * FROM tbl_users where id= $get_id";
 $result = $connection->query($fetch_query);
 if ($result->num_rows > 0) {
     $employee = $result->fetch_assoc();
+    $department_id = $employee['department_id'];
+    $employee['department'] = $connection->query("SELECT * FROM tbl_departments where id=$department_id")->fetch_assoc()['name'];
 } else {
     header("location: list_employee.php");
 }
@@ -28,6 +30,10 @@ if ($result->num_rows > 0) {
                     <tr style="vertical-align: middle;">
                         <th style="width: 200px;">ID <span style="float: right;">:</span></th>
                         <td><?php echo $employee['id']; ?></td>
+                    </tr>
+                    <tr style="vertical-align: middle;">
+                        <th style="width: 200px;">Department <span style="float: right;">:</span></th>
+                        <td><?php echo $employee['department']; ?></td>
                     </tr>
                     <tr style="vertical-align: middle;">
                         <th style="width: 200px;">Name <span style="float: right;">:</span></th>

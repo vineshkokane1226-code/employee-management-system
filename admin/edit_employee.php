@@ -16,13 +16,27 @@ if ($fetch_result->num_rows > 0) {
     header("location: list_employee.php");
 }
 
+// fetch all departments data
+$fetch_all_query = "SELECT * FROM tbl_departments";
+$result = $connection->query($fetch_all_query);
+$departments = [];
+while ($data = $result->fetch_assoc()) {
+    array_push($departments, $data);
+}
+
 
 if (isset($_POST['btn_edit_employee'])) {
+
+    if (isset($_POST['department']) && !empty($_POST['department'])) {
+        $department = $_POST['department'];
+    } else {
+        $department = $employee['department_id'];
+    }
 
     if (isset($_POST['name']) && !empty($_POST['name'])) {
         $name = $_POST['name'];
     } else {
-        $name = $employee['password'];
+        $name = $employee['name'];
     }
 
     if (isset($_POST['email']) && !empty($_POST['email'])) {
@@ -83,6 +97,7 @@ if (isset($_POST['btn_edit_employee'])) {
 
     if (
         isset($name) &&
+        isset($department) &&
         isset($email) &&
         isset($password) &&
         isset($phone) &&
@@ -96,7 +111,7 @@ if (isset($_POST['btn_edit_employee'])) {
     ) {
         // if email is match to previous email then skip to update
         if ($employee['email'] == $email) {
-            $update_query = "UPDATE tbl_users SET name = '$name', password = '$password', phone = '$phone', address = '$address', gender = '$gender', position = '$position', joint_date = '$joint_date', leaved_date = '$leaved_date', date_of_birth = '$date_of_birth', status = $status WHERE id = $get_id";
+            $update_query = "UPDATE tbl_users SET department_id=$department, name= '$name', password= '$password', phone= '$phone', address= '$address', gender= '$gender', position= '$position', joint_date= '$joint_date', leaved_date= '$leaved_date', date_of_birth= '$date_of_birth', status= $status WHERE id= $get_id";
         } else {
 
             // check new email is already exist or not
@@ -106,7 +121,7 @@ if (isset($_POST['btn_edit_employee'])) {
             if ($resultCheckEmailQuery->num_rows > 0) {
                 $result_failed = "This email is already in used!";
             } else {
-                $update_query = "UPDATE tbl_users SET name = '$name', email = '$email', password = '$password', phone = '$phone', address = '$address', gender = '$gender', position = '$position', joint_date = '$joint_date', leaved_date = '$leaved_date', date_of_birth = '$date_of_birth', status = $status WHERE id = $get_id";
+                $update_query = "UPDATE tbl_users SET department_id=$department name='$name', email='$email', password='$password', phone='$phone', address='$address', gender='$gender', position='$position', joint_date='$joint_date', leaved_date='$leaved_date', date_of_birth='$date_of_birth', status=$status WHERE id=$get_id";
             }
         }
 
@@ -141,6 +156,30 @@ if (isset($_POST['btn_edit_employee'])) {
             </p>
         <?php } ?>
         <form action="" method="POST" class="add-employee-form">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label>Department :</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <select name="department" class="form-control">
+                            <option value="">Select Department</option>
+                            <?php foreach ($departments as $department) { ?>
+                                <option value="<?php echo $department['id']; ?>" <?php if ($department['id'] == $employee['department_id']) {
+                                                                                        echo "selected";
+                                                                                    } ?>>
+                                    <?php echo $department['name']; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <?php if (isset($error_department)) { ?>
+                    <p class='alert alert-danger'>
+                        <?php echo $error_department; ?>
+                    </p>
+                <?php } ?>
+            </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-3">
