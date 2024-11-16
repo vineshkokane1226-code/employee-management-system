@@ -6,14 +6,21 @@ include_once("includes/header.php");
 include_once("includes/sidebar.php");
 
 // fetch all attendences data
-$fetch_all_query = "SELECT * FROM tbl_attendences";
-$result = $connection->query($fetch_all_query);
+$attendence_result = $connection->query("SELECT * FROM tbl_attendences");
 $attendence_list = [];
-while ($data = $result->fetch_assoc()) {
+while ($data = $attendence_result->fetch_assoc()) {
     $attendence_id = $data['employee_id'];
     $data['employee'] = $connection->query("SELECT * FROM tbl_users where id=$attendence_id")->fetch_assoc()['name'];
     array_push($attendence_list, $data);
 }
+
+// fetch all employees data
+$user_result = $connection->query("SELECT * FROM tbl_users");
+$employee_list = [];
+while ($data = $user_result->fetch_assoc()) {
+    array_push($employee_list, $data);
+}
+
 
 ?>
 <div class="admin-main">
@@ -21,6 +28,51 @@ while ($data = $result->fetch_assoc()) {
         <h1>List Attendence</h1>
     </div>
     <div class="body-panel">
+        <form action="" method="POST" class="search-filter-form">
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <label for="date">Employee</label>
+                    <select name="employee_id" class="form-control">
+                        <option value="">Select Employee</option>
+                        <?php foreach ($employee_list as $employee) { ?>
+                            <option value="<?php echo $employee['id']; ?>">
+                                <?php echo $employee['name']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <label for="byDate">By Date</label>
+                    <input type="date" id="byDate" name="date" class="form-control">
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <label for="byMonth">By Month</label>
+                    <select name="month" id="byMonth" class="form-control">
+                        <option value="">Select Month</option>
+                        <option value="January">January</option>
+                        <option value="Febuary">Febuary</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <label for="byYear">By Year</label>
+                    <select name="year" id="byYear" class="form-control">
+                        <option value="">Select Year</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" name="btn_submit">Search</button>
+        </form>
+        <hr>
         <table class="table tableb-bordered">
             <thead>
                 <tr>

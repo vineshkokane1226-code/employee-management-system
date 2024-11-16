@@ -9,10 +9,11 @@ include_once("includes/sidebar.php");
 
     $total_departments = $connection->query("SELECT * FROM tbl_departments")->num_rows;
     $total_pending_leaves = $connection->query("SELECT * FROM tbl_leaves where status='Pending'")->num_rows;
-    // $total_leaves = $connection->query("SELECT * FROM tbl_leaves where status='Pending'")->num_rows;
     $total_employees = $connection->query("SELECT * FROM tbl_users");
     $employees_list = [];
     while ($data = $total_employees->fetch_assoc()) {
+        $department_id = $data['department_id'];
+        $data['department'] = $connection->query("SELECT * FROM tbl_departments where id=$department_id")->fetch_assoc()['name'];
         array_push($employees_list, $data);
     }
 
@@ -73,6 +74,7 @@ include_once("includes/sidebar.php");
                             <tr>
                                 <th>SN</th>
                                 <th>Name</th>
+                                <th>Department</th>
                                 <th>Position</th>
                                 <th>Gender</th>
                                 <th>Status</th>
@@ -84,6 +86,7 @@ include_once("includes/sidebar.php");
                                 <tr>
                                     <td><?php echo $key + 1; ?></td>
                                     <td><?php echo $employee['name']; ?></td>
+                                    <td><?php echo $employee['department']; ?></td>
                                     <td><?php echo $employee['position']; ?></td>
                                     <td><?php echo $employee['gender']; ?></td>
                                     <td>

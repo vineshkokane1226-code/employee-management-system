@@ -135,7 +135,8 @@ body {
 }
 
 .loggedin-user .dropdown-nav a:hover {
-    background: #eee;
+    background: #dc3545;
+    color: #fff;
 }
 
 /* Admin Footer */
@@ -222,17 +223,17 @@ body {
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    background: #fff;
-    color: #34495e;
-    padding: 10px;
+    background: #dc3545;
+    color: #fff;
+    padding: 15px 10px;
     font-size: 16px;
-    border-radius: 5px;
-    margin-bottom: 0;
+    border-radius: 0;
+    margin-bottom: -15px;
+    transition: all ease-in-out 0.3s;
 }
 
-.admin-sider-nav h3 a {
+.admin-sider-nav h3 a:hover {
     background: #e67e22;
-    color: #fff;
 }
 
 .admin-sider-nav h4 {
@@ -242,8 +243,8 @@ body {
     text-decoration: none;
     background: #fff;
     color: #34495e;
-    padding: 10px 14px;
-    border-radius: 5px;
+    padding: 15px 10px;
+    border-radius: 0;
     margin-bottom: 15px;
 }
 
@@ -426,4 +427,15 @@ body {
 
 .body-card-panel-table h4 {
     color: #000;
+}
+
+.search-filter-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+.search-filter-form .row {
+    width: 100%;
 }
