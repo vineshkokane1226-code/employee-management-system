@@ -132,6 +132,7 @@ if (isset($_POST['btn_edit_employee'])) {
             $result_success = "No changes were made.";
         }
 
+        // refresh data
         $updated_fetch_query = "SELECT * FROM tbl_users where id= $get_id";
         $updated_fetch_result = $connection->query($updated_fetch_query);
         $employee = $updated_fetch_result->fetch_assoc();

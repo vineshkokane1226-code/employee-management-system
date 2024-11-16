@@ -59,6 +59,7 @@ if (isset($_POST['btn_request_leave'])) {
             $result_success = "No changes were made.";
         }
 
+        // refresh data
         $updated_query = "SELECT * FROM tbl_leaves where id=$get_id";
         $updated_leave = $connection->query($updated_query);
         $leave = $updated_leave->fetch_assoc();

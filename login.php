@@ -25,6 +25,8 @@ if (isset($_POST['btn_submit'])) {
 
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
+
+            // store user in session
             $_SESSION['id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['name'] = $user['name'];

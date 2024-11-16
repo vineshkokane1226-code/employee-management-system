@@ -6,6 +6,17 @@ session_start();
 if (!isset($_SESSION['email'])) {
     $login = "../login.php";
     header("location: $login");
+} else {
+    $loggedin_user = $_SESSION['id'];
+    $loggedin_user_query = "SELECT * FROM tbl_users where id= $loggedin_user";
+    $loggedin_user_query_result = $connection->query($loggedin_user_query);
+    $loggedin_user_query_result_data = $loggedin_user_query_result->fetch_assoc();
+
+    // restore user in session
+    $_SESSION['id'] = $loggedin_user_query_result_data['id'];
+    $_SESSION['role'] = $loggedin_user_query_result_data['role'];
+    $_SESSION['name'] = $loggedin_user_query_result_data['name'];
+    $_SESSION['email'] = $loggedin_user_query_result_data['email'];
 }
 ?>
 <!DOCTYPE html>

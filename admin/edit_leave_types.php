@@ -46,6 +46,7 @@ if (isset($_POST['btn_edit_leave_types'])) {
             $result_success = "No changes were made.";
         }
 
+        // refresh data
         $updated_query = "SELECT * FROM tbl_leave_types where id=$get_id";
         $updated_leave = $connection->query($updated_query);
         $leave_types = $updated_leave->fetch_assoc();

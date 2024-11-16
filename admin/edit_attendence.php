@@ -117,6 +117,11 @@ if (isset($_POST['btn_submit'])) {
         } else {
             $result_success = "No changes were made.";
         }
+
+        // refresh data
+        $fetch_query = "SELECT * FROM tbl_attendences where id= $get_id";
+        $fetch_result = $connection->query($fetch_query);
+        $attendence = $fetch_result->fetch_assoc();
     }
 }
 

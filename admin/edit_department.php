@@ -52,7 +52,7 @@ if (isset($_POST['btn_submit'])) {
         } else {
             $result_success = "No changes were made.";
         }
-
+        // refresh data
         $updated_query = "SELECT * FROM tbl_departments where id=$get_id";
         $updated_leave = $connection->query($updated_query);
         $department = $updated_leave->fetch_assoc();

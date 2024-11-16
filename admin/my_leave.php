@@ -13,12 +13,6 @@ $leaves_list = [];
 while ($data = $result->fetch_assoc()) {
     $leave_type_id = $data['leave_type_id'];
     $data['leave_type_name'] = $connection->query("SELECT * FROM tbl_leave_types where id=$leave_type_id")->fetch_assoc()['name'];
-
-    if (!empty($data['approved_by'])) {
-        $user_id = $data['approved_by'];
-        $data['approved_by'] = $connection->query("SELECT * FROM tbl_users where id=$user_id")->fetch_assoc()['name'];
-    }
-
     array_push($leaves_list, $data);
 }
 ?>
@@ -31,7 +25,6 @@ while ($data = $result->fetch_assoc()) {
             <thead>
                 <tr>
                     <th>SN</th>
-                    <th>Approved By</th>
                     <th>Leave Type</th>
                     <th>From</th>
                     <th>To</th>
@@ -43,32 +36,41 @@ while ($data = $result->fetch_assoc()) {
                 <?php foreach ($leaves_list as $key => $leave) { ?>
                     <tr>
                         <td><?php echo $key + 1; ?></td>
-                        <td><?php echo $leave['approved_by']; ?></td>
                         <td><?php echo $leave['leave_type_name']; ?></td>
                         <td><?php echo date("M d, Y", strtotime($leave['from_date'])); ?></td>
                         <td><?php echo date("M d, Y", strtotime($leave['to_date'])); ?></td>
                         <td>
-                            <span
-                                class="badge bg-<?php
-                                                if ($leave['status'] == 'Pending') {
-                                                    echo "warning";
-                                                }
-                                                if ($leave['status'] == 'Approved') {
-                                                    echo "success";
-                                                }
-                                                if ($leave['status'] == 'Rejected') {
-                                                    echo "danger";
-                                                } ?>">
-                                <?php echo $leave['status']; ?>
-                            </span>
+                            <?php if ($leave['status'] == 'Approved') { ?>
+                                <span class="badge bg-success">
+                                    <?php echo $leave['status']; ?>
+                                </span>
+                            <?php } elseif ($leave['status'] == 'Rejected') { ?>
+                                <span class="badge bg-danger">
+                                    <?php echo $leave['status']; ?>
+                                </span>
+                            <?php } else { ?>
+                                <span class="badge bg-warning">
+                                    <?php echo $leave['status']; ?>
+                                </span>
+                            <?php } ?>
                         </td>
                         <td>
-                            <div class="bnt-actions-link">
-                                <a href="edit_leave.php?id=<?php echo $leave['id']; ?>" class="btn btn-success">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                    <span>Edit</span>
-                                </a>
-                            </div>
+                            <?php if ($leave['status'] == 'Pending') { ?>
+                                <div class="bnt-actions-link">
+                                    <a href="edit_leave.php?id=<?php echo $leave['id']; ?>" class="btn btn-success">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <span>Edit</span>
+                                    </a>
+                                </div>
+
+                            <?php } else {  ?>
+                                <div class="bnt-actions-link">
+                                    <button disabled class="btn btn-success">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <span>Edit</span>
+                                    </button>
+                                </div>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>
