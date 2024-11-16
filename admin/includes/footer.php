@@ -1,5 +1,5 @@
 <footer class="admin-footer">
-    <p>This is footer</p>
+    <p>© <?php echo Date('Y'); ?> - Employee Management System. Developed By: Binod Raj Dhami</p>
 </footer>
 </div>
 </body>

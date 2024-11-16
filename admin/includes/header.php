@@ -40,12 +40,12 @@ if (!isset($_SESSION['email'])) {
             <div class=""></div>
             <div class="loggedin-user">
                 <button type="button" class="btn-user">
-                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-cog"></i>
                     <span><?php echo  $_SESSION['name']; ?></span>
                 </button>
                 <div class="dropdown-nav">
                     <a href="edit_profile.php">
-                        <i class="fa-solid fa-cog"></i>
+                        <i class="fa-solid fa-user"></i>
                         <span>Profile</span>
                     </a>
                     <a href="logout.php">
