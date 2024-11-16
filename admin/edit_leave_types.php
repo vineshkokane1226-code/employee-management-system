@@ -56,7 +56,7 @@ if (isset($_POST['btn_edit_leave_types'])) {
 ?>
 <div class="admin-main">
     <div class="heading-panel">
-        <h1>Edit Employee</h1>
+        <h1>Edit Leave Types</h1>
     </div>
     <div class="body-panel">
         <?php if (isset($result_success)) { ?>

@@ -19,7 +19,7 @@ while ($data = $result->fetch_assoc()) {
 ?>
 <div class="admin-main">
     <div class="heading-panel">
-        <h1>Leave Requested List</h1>
+        <h1>Requested Leave List</h1>
     </div>
     <div class="body-panel">
         <table class="table tableb-bordered">

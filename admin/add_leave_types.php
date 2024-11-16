@@ -41,7 +41,7 @@ if (isset($_POST['btn_add_employee'])) {
 ?>
 <div class="admin-main">
     <div class="heading-panel">
-        <h1>Leave Types</h1>
+        <h1>Add Leave Types</h1>
     </div>
     <div class="body-panel">
         <?php if (isset($result_success)) { ?>

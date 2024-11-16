@@ -122,7 +122,7 @@ if (isset($_POST['btn_submit'])) {
             <div class="form-group">
                 <button type="submit" name="btn_submit" class="btn btn-success">
                     <i class="fa-solid fa-edit"></i>
-                    Update Leave Type
+                    Update Department
                 </button>
             </div>
         </form>

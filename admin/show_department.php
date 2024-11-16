@@ -22,7 +22,7 @@ if ($result->num_rows > 0) {
 ?>
 <div class="admin-main">
     <div class="heading-panel">
-        <h1>Leave Types Details</h1>
+        <h1>Department Details</h1>
     </div>
     <div class="body-panel">
         <table class="table tableb-bordered">
