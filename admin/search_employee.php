@@ -13,21 +13,7 @@ if (isset($_POST['search_between_joint_leaved'])) {
     $result = $connection->query($fetch_query);
 }
 
-// search by joint_date
-else if (isset($_POST['search_by_joint'])) {
-    $joint_from = $_POST['joint_from'];
-    $joint_to = $_POST['joint_to'];
-    $fetch_query = "SELECT * FROM tbl_users WHERE joint_date BETWEEN '$joint_from' AND '$joint_to'";
-    $result = $connection->query($fetch_query);
-}
-
-// search by leaved_date
-else if (isset($_POST['search_by_leaved'])) {
-    $leaved_from = $_POST['leaved_from'];
-    $leaved_to = $_POST['leaved_to'];
-    $fetch_query = "SELECT * FROM tbl_users WHERE leaved_date BETWEEN '$leaved_from' AND '$leaved_to'";
-    $result = $connection->query($fetch_query);
-} else {
+else {
     // fetch all employees data
     $fetch_all_query = "SELECT * FROM tbl_users ORDER BY name ASC";
     $result = $connection->query($fetch_all_query);
@@ -57,50 +43,6 @@ while ($data = $result->fetch_assoc()) {
                     <div class="col-sm-4">
                         <button type="submit" name="search_between_joint_leaved" class="btn btn-primary">
                             <span>Search by Joint & Leaved</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <br>
-    <div class="body-panel">
-        <form action="" method="POST">
-            <div class="from-group">
-                <div class="row" style="display: flex; align-items:flex-end">
-                    <div class="col-sm-4">
-                        <label>Joint From</label>
-                        <input type="date" name="joint_from" class="form-control" required>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>Joint To</label>
-                        <input type="date" name="joint_to" class="form-control" required>
-                    </div>
-                    <div class="col-sm-4">
-                        <button type="submit" name="search_by_joint" class="btn btn-primary">
-                            <span>Search by Joint Date</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <br>
-    <div class="body-panel">
-        <form action="" method="POST">
-            <div class="from-group">
-                <div class="row" style="display: flex; align-items:flex-end">
-                    <div class="col-sm-4">
-                        <label>Leaved From</label>
-                        <input type="date" name="leaved_from" class="form-control" required>
-                    </div>
-                    <div class="col-sm-4">
-                        <label>Leaved To</label>
-                        <input type="date" name="leaved_to" class="form-control" required>
-                    </div>
-                    <div class="col-sm-4">
-                        <button type="submit" name="search_by_leaved" class="btn btn-primary">
-                            <span>Search by Leaved Date</span>
                         </button>
                     </div>
                 </div>

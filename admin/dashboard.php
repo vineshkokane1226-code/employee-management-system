@@ -10,6 +10,7 @@ include_once("includes/sidebar.php");
     $total_departments = $connection->query("SELECT * FROM tbl_departments")->num_rows;
     $total_pending_leaves = $connection->query("SELECT * FROM tbl_leaves where status='Pending'")->num_rows;
     $total_employees = $connection->query("SELECT * FROM tbl_users");
+    $total_approved_leaves = $connection->query("SELECT * FROM tbl_leaves where status='Approved'")->num_rows;
     $employees_list = [];
     while ($data = $total_employees->fetch_assoc()) {
         $department_id = $data['department_id'];
@@ -46,11 +47,11 @@ include_once("includes/sidebar.php");
             </div>
             <div class="col-sm-6 col-md-3">
                 <div class="body-card-panel bg-blue">
-                    <h4>Annual <br>Holidays</h4>
+                    <h4>Approved <br>Leaves</h4>
                     <div>
                         <span class="data-count text-blue">
 
-                            <?php echo $total_pending_leaves; ?>
+                            <?php echo $total_approved_leaves; ?>
                         </span>
                     </div>
                 </div>

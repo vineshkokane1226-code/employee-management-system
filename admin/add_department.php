@@ -35,7 +35,7 @@ if (isset($_POST['btn_submit'])) {
             $result_failed = "Department already in exists!";
         } else {
             $description = $connection->real_escape_string($description);
-            $sql = "INSERT INTO tbl_departments (name, description, created_by, status)  VALUES ('$name', '$description', $created_by, $status)";
+            $sql = "INSERT INTO tbl_departments (name, description, created_by, status, updated_by)  VALUES ('$name', '$description', $created_by, $status, $created_by)";
             $connection->query($sql);
 
             if ($connection->insert_id > 0) {

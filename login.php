@@ -19,7 +19,7 @@ if (isset($_POST['btn_submit'])) {
     if (isset($email) && isset($password)) {
 
         $connect = new mysqli("localhost", "root", "", "db_employeemanagement");
-        $password = md5($password);
+        $password = $password;
         $sql = "SELECT * from tbl_users where email='$email' and password='$password'";
         $result = $connect->query($sql);
 

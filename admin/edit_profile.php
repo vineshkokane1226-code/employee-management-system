@@ -25,12 +25,6 @@ if (isset($_POST['btn_update_profile'])) {
         $email = $loggedin_user['email'];
     }
 
-    if (isset($_POST['password']) && !empty($_POST['password'])) {
-        $password = md5($_POST['password']);
-    } else {
-        $password = $loggedin_user['password'];
-    }
-
     if (isset($_POST['phone']) && !empty($_POST['phone'])) {
         $phone = $_POST['phone'];
     } else {
@@ -78,7 +72,6 @@ if (isset($_POST['btn_update_profile'])) {
     if (
         isset($name) &&
         isset($email) &&
-        isset($password) &&
         isset($phone) &&
         isset($address) &&
         isset($position) &&
@@ -90,7 +83,7 @@ if (isset($_POST['btn_update_profile'])) {
     ) {
         // if email is match to previous email then skip to update
         if ($loggedin_user['email'] == $email) {
-            $update_query = "UPDATE tbl_users SET name = '$name', password = '$password', phone = '$phone', address = '$address', gender = '$gender', position = '$position', joint_date = '$joint_date', leaved_date = '$leaved_date', date_of_birth = '$date_of_birth', status = $status WHERE id = $get_id";
+            $update_query = "UPDATE tbl_users SET name = '$name', phone = '$phone', address = '$address', gender = '$gender', position = '$position', joint_date = '$joint_date', leaved_date = '$leaved_date', date_of_birth = '$date_of_birth', status = $status WHERE id = $get_id";
         } else {
 
             // check new email is already exist or not
@@ -100,7 +93,7 @@ if (isset($_POST['btn_update_profile'])) {
             if ($resultCheckEmailQuery->num_rows > 0) {
                 $result_failed = "This email is already in used!";
             } else {
-                $update_query = "UPDATE tbl_users SET name = '$name', email = '$email', password = '$password', phone = '$phone', address = '$address', gender = '$gender', position = '$position', joint_date = '$joint_date', leaved_date = '$leaved_date', date_of_birth = '$date_of_birth', status = $status WHERE id = $get_id";
+                $update_query = "UPDATE tbl_users SET name = '$name', email = '$email', phone = '$phone', address = '$address', gender = '$gender', position = '$position', joint_date = '$joint_date', leaved_date = '$leaved_date', date_of_birth = '$date_of_birth', status = $status WHERE id = $get_id";
             }
         }
 
@@ -148,16 +141,6 @@ if (isset($_POST['btn_update_profile'])) {
                     </div>
                     <div class="col-sm-9">
                         <input type="text" name="email" class="form-control" placeholder="Enter Email" value="<?php echo $loggedin_user['email']; ?>">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label>New Password :</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="text" name="password" class="form-control" placeholder="Enter Password">
                     </div>
                 </div>
             </div>
